@@ -5,12 +5,10 @@ import (
 	"strconv"
 )
 
-// The variable that defines development processes
-var devEnv = flag.String("v", "live", "help message for flag n")
-
-var datalimit = strconv.Itoa(10)
-var dbLocation = "./db/fitcenter.db"
-var dbType = "sqlite3"
+var devEnv = flag.String("v", "live", "help message for flag n") // The variable that defines development processes
+var datalimit = strconv.Itoa(10)                                 // The variable that defines query limit results
+var dbLocation = "./db/fitcenter.db"                             // The variable that defines bd file location
+var dbType = "sqlite3"                                           // The variable that defines database type
 
 var queryCreateAllTables = `
 create table users (id integer not null primary key, name text, create_date text);
@@ -35,11 +33,9 @@ type DbData struct {
 	ReadingData  []string
 	ReadingValue []string
 	ReadingType  []string
-	// ReadingUser  []int
 }
 
 type NewDbData struct {
-	ReadingCount int
-	//ReadingId       []string
+	ReadingCount    int
 	DictionaryTypes []string
 }
