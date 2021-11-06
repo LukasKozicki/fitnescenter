@@ -15,7 +15,7 @@ import (
 func main() {
 	flag.Parse()
 
-	if _, err := os.Stat("./db/fitcenter.db"); errors.Is(err, os.ErrNotExist) {
+	if _, err := os.Stat(dbLocation); errors.Is(err, os.ErrNotExist) {
 		// DB file not exist
 		fmt.Print("Database file not found - ")
 		if *devEnv == "dev" {
@@ -30,13 +30,13 @@ func main() {
 		if *devEnv == "dev" {
 			// Removing the database
 			fmt.Println("The development version has been launched - data will be deleted")
-			os.Remove("./db/fitcenter.db")
+			os.Remove(dbLocation)
 		} else {
 			fmt.Println("The development version is disabled - data will not be deleted")
 		}
 	}
 
-	db, err := sql.Open("sqlite3", "./db/fitcenter.db")
+	db, err := sql.Open(dbType, dbLocation)
 	Check(err)
 	defer db.Close()
 

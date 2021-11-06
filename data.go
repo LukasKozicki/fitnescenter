@@ -9,6 +9,8 @@ import (
 var devEnv = flag.String("v", "live", "help message for flag n")
 
 var datalimit = strconv.Itoa(10)
+var dbLocation = "./db/fitcenter.db"
+var dbType = "sqlite3"
 
 var queryCreateAllTables = `
 create table users (id integer not null primary key, name text, create_date text);

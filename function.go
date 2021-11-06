@@ -54,7 +54,7 @@ func createHandler(writer http.ResponseWriter, request *http.Request) {
 	TypeValue := strings.Join(getStringsDB("SELECT id FROM measurements_types where name = '"+request.FormValue("types")+"' order by id DESC limit 1"), "")
 	dt := time.Now()
 	time := dt.Format("01-02-2006 15:04:05")
-	db, err := sql.Open("sqlite3", "./db/fitcenter.db")
+	db, err := sql.Open(dbType, dbLocation)
 	Check(err)
 	defer db.Close()
 	var measurementsTableString = "insert into measurements(id, date, value, mtype, user) values(" + NextID + ", '" + time + "', " + ReadingValue + ", " + TypeValue + ", 1)"
@@ -63,7 +63,7 @@ func createHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func getStringsDB(query string) []string {
-	db, err := sql.Open("sqlite3", "./db/fitcenter.db")
+	db, err := sql.Open(dbType, dbLocation)
 	Check(err)
 	defer db.Close()
 	var lines []string
@@ -71,10 +71,10 @@ func getStringsDB(query string) []string {
 	Check(err)
 	defer rows.Close()
 	for rows.Next() {
-		var date string
-		err = rows.Scan(&date)
+		var data string
+		err = rows.Scan(&data)
 		Check(err)
-		lines = append(lines, date)
+		lines = append(lines, data)
 	}
 	err = rows.Err()
 	Check(err)
