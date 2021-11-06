@@ -1,9 +1,14 @@
 package main
 
-import "flag"
+import (
+	"flag"
+	"strconv"
+)
 
 // The variable that defines development processes
 var devEnv = flag.String("v", "live", "help message for flag n")
+
+var datalimit = strconv.Itoa(10)
 
 var queryCreateAllTables = `
 create table users (id integer not null primary key, name text, create_date text);

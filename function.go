@@ -17,10 +17,10 @@ func Check(err error) {
 }
 
 func viewHandler(writer http.ResponseWriter, request *http.Request) {
-	Types := getStringsDB("SELECT measurements_types.name from measurements LEFT JOIN measurements_types on measurements_types.id = measurements.mtype order by measurements.id DESC limit 10")
-	Ids := getStringsDB("SELECT id from measurements order by id DESC limit 10")
-	dates := getStringsDB("SELECT date from measurements order by id DESC limit 10")
-	values := getStringsDB("SELECT value from measurements order by id DESC limit 10")
+	Types := getStringsDB("SELECT measurements_types.name from measurements LEFT JOIN measurements_types on measurements_types.id = measurements.mtype order by measurements.id DESC limit " + datalimit + "")
+	Ids := getStringsDB("SELECT id from measurements order by id DESC limit " + datalimit + "")
+	dates := getStringsDB("SELECT date from measurements order by id DESC limit " + datalimit + "")
+	values := getStringsDB("SELECT value from measurements order by id DESC limit " + datalimit + "")
 	html, err := template.ParseFiles("templates/view.html")
 	Check(err)
 	yourfit := DbData{
@@ -37,7 +37,7 @@ func viewHandler(writer http.ResponseWriter, request *http.Request) {
 func newHandler(writer http.ResponseWriter, request *http.Request) {
 	NextID, err := strconv.Atoi(strings.Join(getStringsDB("SELECT id from measurements order by id DESC limit 1"), ""))
 	Check(err)
-	Types := getStringsDB("SELECT name FROM measurements_types order by id DESC limit 10")
+	Types := getStringsDB("SELECT name FROM measurements_types order by id DESC limit " + datalimit + "")
 	html, err := template.ParseFiles("templates/new.html")
 	Check(err)
 	yourfit := NewDbData{
@@ -85,8 +85,3 @@ func ExecuteQuery(db *sql.DB, query string) {
 	_, err := db.Exec(query)
 	Check(err)
 }
-
-// func PrepareDb(db *sql.DB, query string) {
-// 	_, err := db.Exec(query)
-// 	Check(err)
-// }
