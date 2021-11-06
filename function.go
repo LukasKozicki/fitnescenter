@@ -17,7 +17,6 @@ func Check(err error) {
 }
 
 func viewHandler(writer http.ResponseWriter, request *http.Request) {
-	//signatures := getStrings("signatures.txt")
 	Types := getStringsDB("SELECT measurements_types.name from measurements LEFT JOIN measurements_types on measurements_types.id = measurements.mtype order by measurements.id DESC limit 10")
 	Ids := getStringsDB("SELECT id from measurements order by id DESC limit 10")
 	dates := getStringsDB("SELECT date from measurements order by id DESC limit 10")
@@ -59,7 +58,7 @@ func createHandler(writer http.ResponseWriter, request *http.Request) {
 	Check(err)
 	defer db.Close()
 	var measurementsTableString = "insert into measurements(id, date, value, mtype, user) values(" + NextID + ", '" + time + "', " + ReadingValue + ", " + TypeValue + ", 1)"
-	InsertData(db, measurementsTableString)
+	ExecuteQuery(db, measurementsTableString)
 	http.Redirect(writer, request, "/yourfit", http.StatusFound)
 }
 
@@ -82,12 +81,12 @@ func getStringsDB(query string) []string {
 	return lines
 }
 
-func InsertData(db *sql.DB, query string) {
+func ExecuteQuery(db *sql.DB, query string) {
 	_, err := db.Exec(query)
 	Check(err)
 }
 
-func PrepareDb(db *sql.DB, query string) {
-	_, err := db.Exec(query)
-	Check(err)
-}
+// func PrepareDb(db *sql.DB, query string) {
+// 	_, err := db.Exec(query)
+// 	Check(err)
+// }

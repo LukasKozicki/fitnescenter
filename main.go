@@ -5,8 +5,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-
-	//"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -44,23 +42,13 @@ func main() {
 
 	// Import of the database structure and default data - dev mode
 	if *devEnv == "dev" {
-		PrepareDb(db, queryCreateAllTables)
-		PrepareDb(db, queryClearAllTables)
-		InsertData(db, userTableString)
-		InsertData(db, measurementsUnitsTableString)
-		InsertData(db, measurementsTypesTableString)
+		ExecuteQuery(db, queryCreateAllTables)
+		ExecuteQuery(db, queryClearAllTables)
+		ExecuteQuery(db, userTableString)
+		ExecuteQuery(db, measurementsUnitsTableString)
+		ExecuteQuery(db, measurementsTypesTableString)
 	}
-	var id int
-	last_id_query := "SELECT id from measurements order by id DESC limit 1"
-	rows, err := db.Query(last_id_query)
-	Check(err)
-	defer rows.Close()
-	for rows.Next() {
-		err = rows.Scan(&id)
-		Check(err)
-	}
-	err = rows.Err()
-	Check(err)
+
 	http.Handle("/images/", http.StripPrefix("/images/", http.FileServer(http.Dir("images/"))))
 	http.HandleFunc("/yourfit", viewHandler)
 	http.HandleFunc("/yourfit/new", newHandler)
