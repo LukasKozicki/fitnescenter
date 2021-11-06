@@ -1,4 +1,4 @@
-module yourfit.pl/m
+module yourfit.pl/v0-beta
 
 go 1.16
 
