@@ -9,6 +9,7 @@
 
 ## Directory structure
 
+```C
 FITNESCENTER
 │   README.md
 │   v0-beta
@@ -26,3 +27,4 @@ FITNESCENTER
 └─── templates
     ├─── new.html
     └─── view.html
+```
