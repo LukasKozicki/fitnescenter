@@ -16,6 +16,8 @@ FITNESCENTER
 |   go.mod
 |   go.sum
 |   main.go
+|   function.go
+|   data.go
 |   .gitignore
 |
 └─── db
